@@ -1,0 +1,6 @@
+#file which has 'test' or 'temp' on its name should be ignored
+*test*
+*temp*
+
+#ignore node_modules
+node_modules
