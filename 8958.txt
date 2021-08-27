@@ -1,0 +1,42 @@
+5
+OOXXOXXOOO
+OOXXOOXXOO
+OXOXOXOXOXOXOX
+OOOOOOOOOO
+OOOOXOOOOXOOOOX
+
+*************************************************************8
+const fs = require('fs');
+const input = fs.readFileSync('./8958.txt').toString().trim().split('\n');
+
+const num = parseInt(input.shift());
+let i = 0; 
+
+while (i < num) {
+  let result = input[i].split('');
+  let past = 'X';
+  let score = 0;
+
+  //console.log(result);
+
+  for (let correctOrNot of result) {
+    if (correctOrNot == 'O') {
+      if (past == 'X') {
+        score++;
+        past = 2;
+      } else {
+        score += past;
+        past++;
+      }
+    } else {
+      past = 'X';
+    }
+  }
+
+  console.log(score);
+
+  i++;
+}
+
+//console.log(55)
+

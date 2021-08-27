@@ -1,0 +1,65 @@
+5
+2 4 -10 4 -9
+
+********************************************************************
+const fs = require('fs');
+
+let input = fs.readFileSync('./18870.txt').toString().trim().split('\n');
+
+const cnt = parseInt(input.shift());
+let numSet = input[0].split(' ').map(i => parseInt(i));
+
+//새로배웠다.
+//[...이름]을 사용하면 배열이 복사가 된다.
+let originNumSet = [...numSet]; 
+
+numSet.sort((a, b) => a - b); //결과가 음으로 나와야 한다. 
+
+console.log(originNumSet);
+console.log(numSet);
+
+// //나중에 각 원소의 결과를 갖고 있는 방
+//여기에 fill을 통한 채우기를 하게 되면 모든 공간에 다 채워야 하기 때문에 O(N)의 복잡도를 갖게 되고 그러면 제한 시간을 초과하게 된다. 
+let arr = Array(1000000000*2+1)
+
+
+// let result = '';
+
+// for (let num of originNumSet) {
+//   let duplicatedCnt = 0;
+//   let past = undefined;
+//   let cnt = 0;
+
+//   for (let sortedNum of numSet) {
+//     if (num == sortedNum) {
+//       break;
+//     } else {
+//       if (past != sortedNum) {
+//         cnt++;
+//       }
+
+//       past = sortedNum; 
+//     }
+//   }
+
+//   result += `${cnt} `;
+// }
+let cnt0 = 0;
+let past = undefined;
+
+for (let i of numSet) {
+  if (past != i) {
+    arr[i+1000000000] = cnt0;
+    past = i;
+    cnt0++;
+  }
+}
+
+let result = '';
+
+for (let i of originNumSet) {
+  result += `${arr[i+1000000000]} `;
+}
+
+console.log(result);
+

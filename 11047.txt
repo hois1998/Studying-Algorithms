@@ -1,0 +1,47 @@
+10 4790
+1
+5
+10
+50
+100
+500
+1000
+5000
+10000
+50000
+
+****************************************************************
+const fs = require('fs');
+let input = fs.readFileSync('./11047.txt').toString().trim().split('\n');
+let [num, ans] = input.shift().split(' ').map(e => parseInt(e));
+let inputArr = input.map(e => parseInt(e));
+
+let nearestNumIdx = 0;
+
+//배열에서 정답으로 사용할 수 있는 최대 원소가 어디서부터인지 찾는 과정
+
+for (let i=0; i<inputArr.length; ++i) {
+  if (inputArr[i] < ans) {
+    nearestNumIdx++;
+  } else {
+    break;
+  }
+}
+
+//그 지점부터 일일이 나누기를 해서 나눈 것의 나머지가 만약 다른 동전으로 커버가 되면 그 계속 나누기를 진행하고 그렇지 않으면 
+let cnt = 0;
+
+
+for (let i=nearestNumIdx; i>=0; --i) {
+  if (ans > inputArr[i]) {
+    let tempCnt = Math.floor(ans / inputArr[i]);
+    cnt += tempCnt;
+    ans -= tempCnt*inputArr[i];
+
+    if (ans % inputArr[i] == 0) {
+      break;
+    }
+  }
+}
+
+console.log(cnt)
