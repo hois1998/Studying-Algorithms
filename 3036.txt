@@ -1,0 +1,33 @@
+3
+8 4 2
+
+*******************************************************
+let fs = require('fs');
+let input = fs.readFileSync('3036.txt').toString().trim().split('\n');
+
+let N = parseInt(input.shift());
+let radiusArr = input[0].split(' ').map(e => parseInt(e));
+let firstR = radiusArr.shift();
+
+//약분가능여부를 잘 파악해야 하는데
+//노가다 하는 방법은 생각남 분모나 분자 중 더 작은 것의 수보다 작은 자연수 전체에 대해 둘 다 나눠진다면 나누기. 그리고 이를 반복하는 식
+
+function reduce(numer, denomi) {
+  let minNum = numer >= denomi ? denomi : numer;
+
+  for (let i=2; i<=minNum; ++i) {
+    if (numer % i == 0 && denomi % i ==0) {
+      return reduce(numer/i, denomi/i); 
+    }
+  }
+
+  return `${numer}/${denomi}`;
+}
+
+let str = '';
+
+for (let e of radiusArr) {
+  str += `${reduce(firstR, e)}\n`;
+};
+
+console.log(str);

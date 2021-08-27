@@ -1,0 +1,82 @@
+4
+2 3 1
+5 2 4 1
+
+
+bigint를 활용************************************************************************
+const fs = require('fs');
+let input = fs.readFileSync('./13305.txt').toString().trim().split('\n');
+
+let N = parseInt(input[0]);
+let roadLengthArr = input[1].split(' ').map(i => BigInt(i));
+let oilPriceArr = input[2].split(' ').map(i => BigInt(i));
+
+oilPriceArr.pop();
+
+console.log(oilPriceArr, roadLengthArr)
+
+let sum = 0n;
+let minPrice = oilPriceArr[0];
+
+console.log(minPrice)
+
+for (let i = 0; i<roadLengthArr.length; ++i) {
+  if (minPrice > oilPriceArr[i]) {
+    minPrice = oilPriceArr[i];
+  }
+
+  sum += roadLengthArr[i] * minPrice;
+}
+
+console.log(String(sum));
+
+
+
+
+***************************************************************************
+let cityNum = parseInt(input[0]); //도시의 개수
+//도시 개수는 결국 루프를 돌릴 때 사용하니 idx로 만들려면 -1을 해줘야 하고
+//마지막 도시는 사용할 일이 없기에 -1을 해줘야 한다. 
+
+let cityIdx = cityNum - 2;
+
+//★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★★
+//sorting을 할 때에도 처음부터 그냥 원본에 idx를 붙였다면 어땟을까
+let eachOilPrice = input[2].split(' ').map((e, i) => [parseInt(e), i]);
+let eachDistance = input[1].split(' ').map(e => parseInt(e));
+
+//마지막 도시는 절대 사용이 안된다.
+eachOilPrice.pop()
+//음수를 리턴하면 정렬을 하지 않는 식으로
+eachOilPrice.sort((a,b) => a[0]-b[0]);
+
+// console.log(eachDistance);
+// console.log(eachOilPrice);
+
+// let past = -1;
+
+// let distanceSum = 0;
+// for (let e of eachDistance) {
+//   distanceSum += e;
+// }
+
+let totPrice = 0;
+
+//도시가 뒤에서 붙어 가격을 붙일 수 있다.
+for (let i=0; i < eachOilPrice.length; ++i) {
+
+  if (eachOilPrice[i][1] <= cityIdx) {
+    let tempcityIdx = eachOilPrice[i][1];  
+    let tempDistance = 0;
+
+    for (let j=cityIdx; j>=tempcityIdx; --j) {
+      tempDistance += eachDistance[j];
+    }
+
+    totPrice += tempDistance*eachOilPrice[i][0];
+    // console.log(`totPrice ${totPrice}`)
+    cityIdx = tempcityIdx-1;
+  }
+}
+
+console.log(totPrice);

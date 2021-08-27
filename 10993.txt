@@ -1,0 +1,96 @@
+2
+
+
+*****************************************************************
+let fs = require('fs');
+let input = parseInt(fs.readFileSync('/dev/stdin').toString().trim());
+
+let N = 2**input-1, M = 2**(input+1)-3;
+let arr = [...Array(N)];
+
+for (let i=0; i<arr.length; ++i) {
+    if (input % 2 == 0) {
+        arr[i] = [...Array(M-i)];
+    } else {
+        arr[i] = [...Array((M+1)/2+i)];
+    }
+}
+
+// console.log(arr)
+
+function even(rowIdx, colIdx, num) {
+    for (let i=0; i<2**num-1; ++i) {
+        if (i==0) {
+            for (let j=0; j<2**(num+1)-3; ++j) {
+                arr[rowIdx+i][colIdx+j] = '*';
+            }
+        } else if (i==2**num-2) {
+            arr[rowIdx+i][colIdx+i] = '*';
+        } else {
+            arr[rowIdx+i][colIdx+i] = '*';
+            arr[rowIdx+i][colIdx+(2**(num+1)-4)-i] = '*';
+        }
+        
+    }
+    
+    if ((num-1) >= 1) {
+        odd(rowIdx+(2**(num-1)-1), colIdx+2**(num-1), num-1);
+    }
+}
+
+function odd (rowIdx, colIdx, num) {
+    for (let i=0; i<2**num-1; ++i) {
+        if (i==0) {
+            for (let j=0; j<2**(num+1)-3; ++j) {
+                arr[rowIdx+i][colIdx+j] = '*';
+            }
+        } else if (i==2**num-2) {
+            arr[rowIdx-i][colIdx+i] = '*';
+        } else {
+            arr[rowIdx-i][colIdx+i] = '*';
+            arr[rowIdx-i][colIdx+(2**(num+1)-4)-i] = '*';
+        }
+        
+    }
+    
+    if ((num-1) >= 1) {
+        even(rowIdx-(2**(num-1)-1), colIdx+2**(num-1), num-1);
+    }
+}
+let isEven
+
+if (input % 2 == 0) {//even
+    isEven = true;
+    even(0,0,input);
+} else {
+    isEven = false;
+    odd(2**(input)-2,0,input);
+}
+
+let result = '';
+
+for (let i=0; i<arr.length; ++i) {
+    let cnt = 0;
+    // let mid = i > 0 ? true : false;
+    // let last = i == arr.length-1 ? true : false;
+    
+    for (let j=0; j <arr[i].length; ++j) {
+        if (arr[i][j] != undefined) {
+            result += arr[i][j];
+            // cnt++;
+            
+            // if (cnt == 2 && mid) {
+            //     break;
+            // } 
+            // if (cnt == 1 && last) {
+            //     break;
+            // }
+        } else {
+            result += ' ';
+        }
+    }
+    
+    result += '\n';
+}
+//console.log(arr)
+console.log(result);

@@ -1,0 +1,36 @@
+3
+26 40 83
+49 60 57
+13 89 99
+
+***********************************************동적계획 48.5%
+let fs = require('fs');
+let input = fs.readFileSync('1149.txt').toString().trim().split('\n');
+
+let N = parseInt(input.shift());
+input = input.map(e => e.split(' ').map(i => parseInt(i)));
+//console.log(input)
+
+let arr = input[0];
+
+//console.log(arr)
+for (let i=1; i<input.length; ++i) {
+  let temp0 = arr[0], temp1 = arr[1], temp2 = arr[2];
+  arr[0] = input[i][0] + min(temp1, temp2);
+  arr[1] = input[i][1] + min(temp0, temp2);
+  arr[2] = input[i][2] + min(temp0, temp1);
+  //console.log(`i:${i} arr: ${arr}`);
+}
+
+let result = arr[0] < arr[1] ? (arr[0] < arr[2] ? arr[0] : arr[2]) : (arr[1] < arr[2] ? arr[1] : arr[2])
+
+function min (a, b) {
+  if (a < b) {
+    return a;
+  } else {
+    return b;
+  }
+}
+
+console.log(result);
+
