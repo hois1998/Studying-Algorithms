@@ -1,0 +1,80 @@
+4
+
+**************************************************별찍기 22 35.99%
+let fs = require('fs');
+let input = fs.readFileSync('10997.txt').toString().trim().split('\n');
+
+input = parseInt(input[0]);
+
+//*****
+//*
+//*  **
+//*   *
+//*   *
+//*   *
+//*****
+//여기서 맨 위에 줄은 check가 0 이어서 내려가는 세로 줄은 check가 1 
+//이어서 맨 아래에 가로줄은  check 2 그리고 이어서 올라가는 세로줄은 check가 3
+// 마지막 1스타를 칠하면 된다.
+function drawingStar(rowIdx, colIdx, num) {
+  for (let i=0; i<4*num-3; ++i) {
+    //console.log(`arr ${arr.length},${arr[0].length} col row (${colIdx},${rowIdx})`)
+    arr[rowIdx][colIdx-i] = '*';
+    arr[rowIdx+4*num-2][colIdx-i] = '*';
+  }
+
+  arr[rowIdx+1][colIdx-(4*num-4)] = '*'
+
+  for (let i=2; i<4*num-2; ++i) {
+    arr[rowIdx+i][colIdx-(4*num-4)] = '*';
+    arr[rowIdx+i][colIdx] = '*';
+  }
+
+  arr[rowIdx+2][colIdx-1] = '*';
+
+  if (num == 2) {
+    arr[rowIdx+2][colIdx-2] = '*';
+    arr[rowIdx+3][colIdx-2] = '*';
+    arr[rowIdx+4][colIdx-2] = '*';
+  } 
+
+  if (num>2) 
+    drawingStar(rowIdx+2, colIdx-2, num-1);
+
+
+}
+
+let arr;
+
+if (input == 1) {
+  console.log('*');
+} else {
+  arr = [...Array(4*input-1)].map(e => Array(4*input-3));
+
+  drawingStar(0, 4*input-4, input);  //args는 하나만 있어도 되겠네
+
+  let result = '';
+
+  for (let i=0; i<arr.length; ++i) {
+    for (let j=0; j<arr[0].length; ++j) {
+      if (i==1) {
+        result += '*';
+        break;
+      }
+
+      if (arr[i][j] != undefined) {
+        result += arr[i][j];
+      } else {
+        result += ' ';
+      }
+
+    }
+
+    result += '\n';
+  }
+
+  console.log(result);
+}
+
+
+

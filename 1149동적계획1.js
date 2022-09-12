@@ -1,3 +1,24 @@
+//깔끔한 식이라고 생각했는데 결과가 
+// input
+// 3
+// 1 100 100
+// 100 100 100
+// 1 100 100
+// 에 대해
+// 1 100 100
+// 201 201 201
+// 403 502 502
+// 403
+// 으로 잘못나왔다. 이를 해결하기 위해선 
+// sumR += input[i][0] + findMin(g, b);
+// sumG += input[i][1] + findMin(r, b);
+// sumB += input[i][2] + findMin(r, g);
+// 를 
+// sumR = input[i][0] + findMin(g, b);
+// sumG = input[i][1] + findMin(r, b);
+// sumB = input[i][2] + findMin(r, g);
+// 로 바꿔주면 됐는데 머리 과부하가 왔었나 보다.
+
 const fs = require('fs');
 let input = fs.readFileSync('./test.txt').toString().trim().split('\n');
 const N = parseInt(input.shift());
@@ -21,7 +42,7 @@ for (let i=1; i<N; ++i) {
   let r = sumR, g = sumG, b = sumB;
 
   sumR += input[i][0] + findMin(g, b);
-  sumG += input[i][1] +findMin(r, b);
+  sumG += input[i][1] + findMin(r, b);
   sumB += input[i][2] + findMin(r, g);
   console.log(sumR, sumG, sumB);
 }

@@ -1,0 +1,67 @@
+5
+
+********************************************************방법1
+let fs = require('fs');
+let input = fs.readFileSync('2445.txt').toString().trim();
+
+input = parseInt(input);
+
+//먼저 2차원 배열을 만들어 거기에 모두 *를 채워둔다. 
+let result = [...Array(2*input-1)].map(e => Array(2*input).fill('*'));
+
+for (let i=0; i<input; ++i) {
+  if (i != 0) {
+
+    for (let j=-i; j < i; ++j) {
+      result[input-1+i][input+j] = ' ';
+      result[input-1-i][input+j] = ' ';
+    }
+  }
+}
+
+let final = '';
+
+for (let e of result) {
+  for (let ee of e) {
+    final += ee;
+  }
+
+  final += '\n';
+}
+
+console.log(final);
+
+***********************************************************방법2
+
+let fs = require('fs');
+let input = fs.readFileSync('2445.txt').toString().trim();
+
+input = parseInt(input);
+
+//먼저 2차원 배열을 만들어 거기에 모두 *를 채워둔다. 
+let result = '';
+
+for (let i=0; i<input; ++i) {
+  let temp = '';
+
+  for (let j=0; j<input-i; ++j) {
+    temp += '*';
+  }
+
+  for (let j=0; j<i; ++j) {
+    temp += '  ';
+  }
+
+  for (let j=0; j<input-i; ++j) {
+    temp += '*';
+  }
+  //console.log(`temp ${temp}`)
+  if (i!=0) {
+    result = temp + '\n' + result 
+    + '\n' + temp;
+  } else {
+    result += temp ;
+  }
+}
+
+console.log(result);
