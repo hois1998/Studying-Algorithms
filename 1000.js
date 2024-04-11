@@ -1,3 +1,6 @@
+// input
+// 1 2
+
 const fs = require('fs');
 
 const input = fs.readFileSync('./1000_add.txt').toString().split(' ');

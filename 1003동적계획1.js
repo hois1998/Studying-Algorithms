@@ -1,4 +1,7 @@
 //idea 미리 만들어 놓자
+
+//피보나치수열의 응용으로 어떤 n번째 수 출력을 위해 f(0)과 f(1)을 각각 몇 번 사용하는지 출력하는 문제이다. 
+//220215에 다시와서 봤는데 바로 이해되지 않았다.
 const fs = require('fs');
 let input = fs.readFileSync('./test.txt').toString().trim().split('\n').map(i => parseInt(i));
 input.shift();

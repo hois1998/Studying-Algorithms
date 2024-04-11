@@ -1,0 +1,60 @@
+55-50+40-10+60+30-65+35
+
+**********************************************
+const fs = require('fs');
+let input = fs.readFileSync('./1541.txt').toString().trim();
+
+let posSum = [], negSum = [];
+
+let minusIdx = [];
+
+for (let i=0; i<input.length; ++i) {
+  if (input[i] == '-') {
+    minusIdx.push(parseInt(i));
+  }
+}
+
+if (minusIdx.length == 0) {
+  let temp = input.split('+').map(e => parseInt(e)).reduce((accumulator, currVal) => accumulator+currVal, 0);
+
+  posSum.push(temp);
+
+} else {
+  let tempIdx = minusIdx[0];
+
+  let temp = input.slice(0, minusIdx[0]).split('+').map(e => parseInt(e)).reduce((accumulator, currVal) => accumulator+currVal, 0);
+
+  posSum.push(temp);
+
+  for (let i=0; i<minusIdx.length; ++i) {
+    // console.log('abc')
+
+    if (i == minusIdx.length-1) {
+      //여기서 막힘...
+      //console.log(tempIdx, input.length)
+      //console.log(input.slice(tempIdx+1, input.length).split('+'))
+      let mTemp = input.slice(tempIdx+1, input.length).split('+').map(e => parseInt(e)).reduce((accumulator, currVal) => accumulator+currVal, 0);
+
+      negSum.push(mTemp);
+    } else {
+
+      let mTemp = input.slice(minusIdx[i]+1, minusIdx[i+1]).split('+').map(e => parseInt(e)).reduce((accumulator, currVal) => accumulator+currVal, 0);
+
+      negSum.push(mTemp);
+      tempIdx = minusIdx[i+1];
+    }
+  } 
+}
+
+let sum = 0;
+for (let e of posSum) {
+  sum += e;
+}
+for (let e of negSum) {
+  sum -= e;
+}
+
+// console.log(minusIdx)
+// console.log(posSum)
+// console.log(negSum)
+console.log(sum)

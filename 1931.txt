@@ -1,0 +1,47 @@
+11
+1 4
+3 5
+0 6
+5 7
+3 8
+5 9
+4 9
+9 9
+6 10
+8 11
+8 12
+2 13
+12 14
+
+원리를 알고선 풀면 탐욕알고리즘도 쉽다
+*********************************************************
+let fs = require('fs');
+let input = fs.readFileSync('1931.txt').toString().trim().split('\n');
+
+let N = parseInt(input.shift());
+let timeArr = input.map(e => e.split(' ').map(e => parseInt(e)));
+
+//before sorting
+// console.log(timeArr);
+
+timeArr.sort((a,b) => {
+  if (a[1] == b[1]) return a[0] - b[0];
+  
+  return a[1] - b[1];
+});
+
+//after sorting
+console.log(timeArr)
+
+let curTime = 0;
+let cnt = 0;
+
+for (let time of timeArr) {
+  if (time[0] >= curTime) {
+    cnt++;
+    curTime = time[1];
+  }
+}
+
+console.log(cnt)
+

@@ -1,0 +1,38 @@
+5
+
+**************************************************************
+let fs = require('fs');
+let input = fs.readFileSync('2446.txt').toString().trim();
+
+input = parseInt(input);
+
+// console.log(input)
+
+let cntLine = 0;
+let shrinkCheck = true;
+let initStarNum = input*2-1;
+let tempStarNum = initStarNum;
+let star = '';
+
+while(cntLine < input*2-1) {
+  let tempStar = '';
+
+  for (let i=0; i<(initStarNum-tempStarNum)/2; ++i) {
+    tempStar += ' ';
+  }
+
+  for (let i=0; i<tempStarNum; ++i) {
+    tempStar += '*';
+  }
+
+  if (cntLine >= (input-1)) {
+    shrinkCheck = false;
+  }
+
+  tempStarNum = shrinkCheck ? tempStarNum - 2 : tempStarNum + 2;
+
+  star += tempStar + '\n';
+  cntLine++;
+}
+
+console.log(star)

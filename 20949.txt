@@ -1,0 +1,32 @@
+3
+10 10
+10 10
+20 20
+
+*************************************************강원대 예선1번 문제
+let fs = require('fs');
+let input = fs.readFileSync('20949.txt').toString().trim().split('\n');
+
+let N = input.shift();
+//console.log(input);
+let arr = input.map((e, idx) => {
+  let temp = e.split(' ');
+  return [parseInt(temp[0])**2+parseInt(temp[1])**2, idx];
+});
+
+//console.log(arr);
+arr.sort((a, b) => {
+  if (a[0] == b[0]) {
+    return a[1]-b[1];
+  } else {
+    return b[0]-a[0];
+  }
+})
+
+//console.log(arr);
+let result = '';
+for (let e of arr) {
+  result += `${e[1]+1}\n`;
+}
+
+console.log(result);

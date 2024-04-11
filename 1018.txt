@@ -1,0 +1,53 @@
+8 8
+WBWBWBWB
+BWBWBWBW
+WBWBWBWB
+BWBBBWBW
+WBWBWBWB
+BWBWBWBW
+WBWBWBWB
+BWBWBWBW
+
+
+****************************************************************
+const fs = require('fs');
+const input = fs.readFileSync('./test.txt').toString().trim().split('\n');
+
+const [M, N] = input.shift().split(' ');
+// console.log(M, N);
+// console.log(input);
+let min = Infinity;    //new symbol
+
+// console.log(input[0][0])
+for (let i=0; i <= (M-8); ++i) {
+  for (let j=0; j <= (N-8); ++j) {
+
+    let checkWord = ['B', 'W'];
+
+    for (let w of checkWord) {
+      let cnt = 0;
+
+      for (let k=i; k<i+8; ++k) {
+        for (let l=j; l<j+8; ++l) {
+          
+          if ((k+l) % 2 == 0) {//even
+            //console.log(`i: ${i} j: ${j} k: ${k} l: ${l}`)
+            if (input[k][l] != w) cnt++;
+          } else {  //odd
+            if (input[k][l] == w) cnt++;
+          }
+        }
+      }
+
+      if (cnt < min) {
+        min = cnt;
+      }
+
+    }
+
+    
+    
+  }
+}
+
+console.log(min)
